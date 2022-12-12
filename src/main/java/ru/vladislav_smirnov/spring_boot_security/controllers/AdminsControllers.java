@@ -1,7 +1,6 @@
 package ru.vladislav_smirnov.spring_boot_security.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -21,11 +20,10 @@ public class AdminsControllers {
     private final RoleService roleService;
 
     @Autowired
-    public AdminsControllers(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
+    public AdminsControllers(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
-
 
     @GetMapping
     public String showAllUsers(ModelMap modelMap, Principal principal) {
@@ -40,7 +38,7 @@ public class AdminsControllers {
     }
 
     @PostMapping("/saveUser")
-    public String saveUser(@ModelAttribute("user") User user) {
+    public String saveUser(@ModelAttribute("newUser") User user) {
         userService.saveUsers(user);
         return "redirect:/admin";
     }
@@ -48,10 +46,10 @@ public class AdminsControllers {
     @GetMapping("/showFormForUpdate/{id}")
     public String showFormForUpdate(@PathVariable(value = "id") Long id, Model modelMap) {
         User user = userService.getUserById(id);
-        modelMap.addAttribute("user", user);
+        modelMap.addAttribute("editUser", user);
         Collection<Role> roles = roleService.getAllRoles();
-        modelMap.addAttribute("roles", roles);
-        return "/admin/update_user";
+        modelMap.addAttribute("editRoles", roles);
+        return "redirect:/admin";
     }
 
     @GetMapping("/deleteUser/{id}")
@@ -59,5 +57,4 @@ public class AdminsControllers {
         userService.deleteUserById(id);
         return "redirect:/admin";
     }
-
 }

@@ -38,7 +38,7 @@
         </div>
     </nav>
 </div>
-<div class="row" style="padding-top: 75px; margin-right: 0px">
+<div class="row" style="padding-top: 75px; margin-right: 1px">
     <div class="col-2">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link active" id="v-pills-admin-tab" data-toggle="pill" href="#v-pills-admin" role="tab"
@@ -133,48 +133,54 @@
                                           method="POST">
                                         <div class="form-row">
                                             <div class="col-4 mx-auto">
-                                                <label class="col"><h5><strong>First name</strong></h5>
+                                                <h5><strong>First name</strong></h5>
+                                                <label class="col">
                                                     <input type="text" th:field="*{name}"
-                                                           placeholder="First name" class="form-control mb-2">
+                                                           placeholder="First name" class="form-control mb-3">
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="col-4 mx-auto">
-                                                <label class="col"><h5><strong>Last name</strong></h5>
+                                                <h5><strong>Last name</strong></h5>
+                                                <label class="col">
                                                     <input type="text" th:field="*{surname}"
-                                                           placeholder="Last name" class="form-control mb-2">
+                                                           placeholder="Last name" class="form-control mb-3">
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="col-4 mx-auto">
-                                                <label class="col"><h5><strong>Age</strong></h5>
+                                                <h5><strong>Age</strong></h5>
+                                                <label class="col">
                                                     <input type="number" minlength="0" maxlength="150" th:field="*{age}"
-                                                           placeholder="Age" class="form-control mb-2">
+                                                           placeholder="Age" class="form-control mb-3">
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="col-4 mx-auto">
-                                                <label class="col"><h5><strong>Email</strong></h5>
+                                                <h5><strong>Email</strong></h5>
+                                                <label class="col">
                                                     <input type="email" th:field="*{email}"
-                                                           placeholder="Email" class="form-control mb-2">
+                                                           placeholder="Email" class="form-control mb-3">
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="col-4 mx-auto">
-                                                <label class="col"><h5><strong>Password</strong></h5>
+                                                <h5><strong>Password</strong></h5>
+                                                <label class="col">
                                                     <input type="password" th:field="*{password}"
-                                                           placeholder="Password" class="form-control mb-2">
+                                                           placeholder="Password" class="form-control mb-3">
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="col-4 mx-auto">
-                                                <label class="col"><h5><strong>Role</strong></h5>
-                                                    <select th:field="*{roleSet}" multiple class="form-control mb-2"
+                                                <h5><strong>Role</strong></h5>
+                                                <label class="col">
+                                                    <select th:field="*{roleSet}" multiple class="form-control mb-3"
                                                             size="2" id="exampleFormControlSelect2">
                                                         <option th:each="role : ${newRoles}"
                                                                 th:value="${role.id}"
@@ -236,7 +242,8 @@
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Модальное окно -->
+
 <div class="modal fade" id="editModalUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
