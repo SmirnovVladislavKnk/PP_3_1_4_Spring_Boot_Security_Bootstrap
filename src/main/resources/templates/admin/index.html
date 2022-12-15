@@ -26,8 +26,8 @@
 <div class=header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: #31373e;">
         <a class="navbar-brand" style="color: white">
-            <span class="font-weight-bold" th:text="${user.email}"></span> with roles: <span
-                th:text="${user.toString()}"></span>
+            <span class="font-weight-bold" th:text="${principalUser.email}"></span> with roles: <span
+                th:text="${principalUser.toString()}"></span>
         </a>
         <div class="navbar-collapse">
             <ul class="navbar-nav ml-md-auto">
@@ -91,23 +91,236 @@
                                             <th> Delete</th>
                                         </tr>
                                         </thead>
-                                        <tr th:each="user : ${listUsers}">
-                                            <td class="align-middle" th:text="${user.id}"></td>
-                                            <td class="align-middle" th:text="${user.name}"></td>
-                                            <td class="align-middle" th:text="${user.surname}"></td>
-                                            <td class="align-middle" th:text="${user.age}"></td>
-                                            <td class="align-middle" th:text="${user.email}"></td>
-                                            <td class="align-middle" th:text="${user.toString}"></td>
+                                        <tr th:each="iUs : ${listUsers}">
+                                            <td class="align-middle" th:text="${iUs.getId()}"></td>
+                                            <td class="align-middle" th:text="${iUs.getName()}"></td>
+                                            <td class="align-middle" th:text="${iUs.getSurname()}"></td>
+                                            <td class="align-middle" th:text="${iUs.getAge()}"></td>
+                                            <td class="align-middle" th:text="${iUs.getEmail()}"></td>
+                                            <td class="align-middle" th:text="${iUs.toString}"></td>
                                             <td class="align-middle">
-                                                <button type="button" class="btn btn-info" th:value="${user.getId()}"
-                                                        data-toggle="modal"
-                                                        data-target="#editModalUser">
+                                                <button type="button" class="btn btn-info" data-toggle="modal"
+                                                        data-target="#updateModalUser"
+                                                        th:data-target="${'#updateModalUser'+iUs.id}">
                                                     Edit
                                                 </button>
+
+
+                                                <div class="modal fade" id="updateModalUser"
+                                                     th:id="${'updateModalUser'+iUs.id}" tabindex="-1" role="dialog"
+                                                     aria-labelledby="deleteForModalUser"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="updateForModalUser">Delete
+                                                                    User</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <form class="form-flex" action="#" th:action="@{/admin/updateUser/{id}(id=${iUs.getId()})}"
+                                                                  th:method="post"
+                                                            th:object="${iUs}">
+                                                                <div class="form-row">
+                                                                    <div style="text-align: center" class="mx-auto">
+                                                                        <h5 class="font-weight-bold">ID</h5>
+                                                                        <label class="col">
+                                                                            <input disabled type="text"
+                                                                                   name="id"
+                                                                                   th:value="${iUs.id}"
+                                                                                   class="form-control mb-3">
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row">
+                                                                    <div style="text-align: center" class="mx-auto">
+                                                                        <h5 class="font-weight-bold">First name</h5>
+                                                                        <label class="col">
+                                                                            <input type="text"
+                                                                                   name="name"
+                                                                                   th:value="${iUs.name}"
+                                                                                   class="form-control mb-3">
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row">
+                                                                    <div style="text-align: center" class="mx-auto">
+                                                                        <h5 class="font-weight-bold">Last name</h5>
+                                                                        <label class="col">
+                                                                            <input type="text"
+                                                                                   name="surname"
+                                                                                   th:value="${iUs.surname}"
+                                                                                   class="form-control mb-3">
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row">
+                                                                    <div style="text-align: center" class="mx-auto">
+                                                                        <h5 class="font-weight-bold">Age</h5>
+                                                                        <label class="col">
+                                                                            <input type="number" minlength="0"
+                                                                                   maxlength="150"
+                                                                                   name="age"
+                                                                                   th:value="${iUs.age}"
+                                                                                   class="form-control mb-3">
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row">
+                                                                    <div style="text-align: center" class="mx-auto">
+                                                                        <h5 class="font-weight-bold">Email</h5>
+                                                                        <label class="col">
+                                                                            <input type="email"
+                                                                                   name="email"
+                                                                                   th:value="${iUs.email}"
+                                                                                   class="form-control mb-3">
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row">
+                                                                    <div style="text-align: center" class="mx-auto">
+                                                                        <h5 class="font-weight-bold">Password</h5>
+                                                                        <label class="col">
+                                                                            <input type="password"
+                                                                                   name="password"
+                                                                                   th:value="${iUs.password}"
+                                                                                   class="form-control mb-3">
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row">
+                                                                    <div style="text-align: center" class="mx-auto">
+                                                                        <h5 class="font-weight-bold">Role</h5>
+                                                                        <label class="col">
+                                                                            <select th:value="${iUs.roleSet}"
+                                                                                    name="roleSet"
+                                                                                    multiple class="form-control mb-3"
+                                                                                    size="2" id="updateUser">
+                                                                                <option th:each="role : ${roles}"
+                                                                                        th:value="${role.id}"
+                                                                                        th:text="${role.toString()}">
+                                                                                </option>
+                                                                            </select>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                            data-dismiss="modal">Close
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-primary">
+                                                                        Edit
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
-                                            <td class="align-middle"><a
-                                                    th:href="@{/admin/deleteUser/{id}(id=${user.id})}"
-                                                    class="btn btn-danger"> Delete </a></td>
+
+
+                                            <td class="align-middle">
+                                                <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                        data-target="#deleteModalUser"
+                                                        th:data-target="${'#deleteModalUser'+iUs.id}">
+                                                    Delete
+                                                </button>
+                                                <div class="modal fade" id="deleteModalUser"
+                                                     th:id="${'deleteModalUser'+iUs.id}" tabindex="-1" role="dialog"
+                                                     aria-labelledby="deleteForModalUser"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="deleteForModalUser">Delete
+                                                                    User</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <form class="form-flex" action="#"
+                                                                  th:action="@{/admin/deleteUser/{id}(id=${iUs.getId()})}">
+                                                                <div class="form-row">
+                                                                    <div style="text-align: center" class="mx-auto">
+                                                                        <h5 class="font-weight-bold">ID</h5>
+                                                                        <label class="col">
+                                                                            <input disabled type="text"
+                                                                                   th:value="${iUs.id}"
+                                                                                   class="form-control mb-3">
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row">
+                                                                    <div style="text-align: center" class="mx-auto">
+                                                                        <h5 class="font-weight-bold">First name</h5>
+                                                                        <label class="col">
+                                                                            <input disabled type="text"
+                                                                                   th:value="${iUs.name}"
+                                                                                   class="form-control mb-3">
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row">
+                                                                    <div style="text-align: center" class="mx-auto">
+                                                                        <h5 class="font-weight-bold">Last name</h5>
+                                                                        <label class="col">
+                                                                            <input disabled type="text"
+                                                                                   th:value="${iUs.surname}"
+                                                                                   class="form-control mb-3">
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row">
+                                                                    <div style="text-align: center" class="mx-auto">
+                                                                        <h5 class="font-weight-bold">Age</h5>
+                                                                        <label class="col">
+                                                                            <input disabled type="number" minlength="0"
+                                                                                   maxlength="150" th:value="${iUs.age}"
+                                                                                   class="form-control mb-3">
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row">
+                                                                    <div style="text-align: center" class="mx-auto">
+                                                                        <h5 class="font-weight-bold">Email</h5>
+                                                                        <label class="col">
+                                                                            <input disabled type="email"
+                                                                                   th:value="${iUs.email}"
+                                                                                   class="form-control mb-3">
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row">
+                                                                    <div style="text-align: center" class="mx-auto">
+                                                                        <h5 class="font-weight-bold">Role</h5>
+                                                                        <label class="col">
+                                                                            <select disabled th:value="${iUs.roleSet}"
+                                                                                    multiple class="form-control mb-3"
+                                                                                    size="2" id="deleteUser">
+                                                                                <option th:each="role : ${iUs.roleSet}"
+                                                                                        th:value="${role.id}"
+                                                                                        th:text="${role.toString()}">
+                                                                                </option>
+                                                                            </select>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                            data-dismiss="modal">Close
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-danger">
+                                                                        Delete
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </table>
                                 </td>
@@ -129,11 +342,11 @@
                             <tr>
                                 <td style="text-align: center">
                                     <form class="form-flex" action="#" th:action="@{/admin/saveUser}"
-                                          th:object="${newUser}"
+                                          th:object="${user}"
                                           method="POST">
                                         <div class="form-row">
                                             <div class="col-4 mx-auto">
-                                                <h5><strong>First name</strong></h5>
+                                                <h5 class="font-weight-bold">First name</h5>
                                                 <label class="col">
                                                     <input type="text" th:field="*{name}"
                                                            placeholder="First name" class="form-control mb-3">
@@ -142,7 +355,7 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="col-4 mx-auto">
-                                                <h5><strong>Last name</strong></h5>
+                                                <h5 class="font-weight-bold">Last name</h5>
                                                 <label class="col">
                                                     <input type="text" th:field="*{surname}"
                                                            placeholder="Last name" class="form-control mb-3">
@@ -151,7 +364,7 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="col-4 mx-auto">
-                                                <h5><strong>Age</strong></h5>
+                                                <h5 class="font-weight-bold">Age</h5>
                                                 <label class="col">
                                                     <input type="number" minlength="0" maxlength="150" th:field="*{age}"
                                                            placeholder="Age" class="form-control mb-3">
@@ -160,7 +373,7 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="col-4 mx-auto">
-                                                <h5><strong>Email</strong></h5>
+                                                <h5 class="font-weight-bold">Email</h5>
                                                 <label class="col">
                                                     <input type="email" th:field="*{email}"
                                                            placeholder="Email" class="form-control mb-3">
@@ -169,7 +382,7 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="col-4 mx-auto">
-                                                <h5><strong>Password</strong></h5>
+                                                <h5 class="font-weight-bold">Password</h5>
                                                 <label class="col">
                                                     <input type="password" th:field="*{password}"
                                                            placeholder="Password" class="form-control mb-3">
@@ -178,11 +391,11 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="col-4 mx-auto">
-                                                <h5><strong>Role</strong></h5>
+                                                <h5 class="font-weight-bold">Role</h5>
                                                 <label class="col">
                                                     <select th:field="*{roleSet}" multiple class="form-control mb-3"
-                                                            size="2" id="exampleFormControlSelect2">
-                                                        <option th:each="role : ${newRoles}"
+                                                            size="2" id="newUserFormControl">
+                                                        <option th:each="role : ${roles}"
                                                                 th:value="${role.id}"
                                                                 th:text="${role.toString()}">
                                                         </option>
@@ -225,44 +438,18 @@
                                 </tr>
                                 </thead>
                                 <tr>
-                                    <td class="align-middle" th:text="${user.id}"></td>
-                                    <td class="align-middle" th:text="${user.name}"></td>
-                                    <td class="align-middle" th:text="${user.surname}"></td>
-                                    <td class="align-middle" th:text="${user.age}"></td>
-                                    <td class="align-middle" th:text="${user.email}"></td>
-                                    <td class="align-middle" th:text="${user.toString()}"></td>
+                                    <td class="align-middle" th:text="${principalUser.id}"></td>
+                                    <td class="align-middle" th:text="${principalUser.name}"></td>
+                                    <td class="align-middle" th:text="${principalUser.surname}"></td>
+                                    <td class="align-middle" th:text="${principalUser.age}"></td>
+                                    <td class="align-middle" th:text="${principalUser.email}"></td>
+                                    <td class="align-middle" th:text="${principalUser.toString()}"></td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Модальное окно -->
-
-<div class="modal fade" id="editModalUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Edit user</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-
-            ФОРМА ЗАПОЛНЕНИЯ ЗДЕСЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Edit</button>
-
             </div>
         </div>
     </div>

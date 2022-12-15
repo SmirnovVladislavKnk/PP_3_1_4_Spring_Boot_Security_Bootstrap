@@ -2,16 +2,13 @@ package ru.vladislav_smirnov.spring_boot_security.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import ru.vladislav_smirnov.spring_boot_security.model.Role;
 import ru.vladislav_smirnov.spring_boot_security.model.User;
 import ru.vladislav_smirnov.spring_boot_security.service.RoleService;
 import ru.vladislav_smirnov.spring_boot_security.service.UserService;
 
 import java.security.Principal;
-import java.util.Collection;
 
 @Controller
 @RequestMapping("/admin")
@@ -25,30 +22,28 @@ public class AdminsControllers {
         this.roleService = roleService;
     }
 
+
     @GetMapping
     public String showAllUsers(ModelMap modelMap, Principal principal) {
-        modelMap.addAttribute("listUsers", userService.getAllUsers());
-        User user = userService.findByEmail(principal.getName());
-        modelMap.addAttribute("user", user);
-        User newUser = new User();
-        modelMap.addAttribute("newUser", newUser);
-        Collection<Role> newRoles = roleService.getAllRoles();
-        modelMap.addAttribute("newRoles", newRoles);
+        modelMap.addAttribute("principalUser", userService.findByEmail(principal.getName())); //авторизованный юзер
+
+        modelMap.addAttribute("listUsers", userService.getAllUsers()); // Получение всех юзеров
+
+        modelMap.addAttribute("user",new User()); // создание юзера
+
+        modelMap.addAttribute("roles", roleService.getAllRoles()); // получение ролей для юзера
         return "/admin/index";
     }
 
     @PostMapping("/saveUser")
-    public String saveUser(@ModelAttribute("newUser") User user) {
+    public String saveUser(@ModelAttribute("user") User user) {
         userService.saveUsers(user);
         return "redirect:/admin";
     }
 
-    @GetMapping("/showFormForUpdate/{id}")
-    public String showFormForUpdate(@PathVariable(value = "id") Long id, Model modelMap) {
-        User user = userService.getUserById(id);
-        modelMap.addAttribute("editUser", user);
-        Collection<Role> roles = roleService.getAllRoles();
-        modelMap.addAttribute("editRoles", roles);
+    @PostMapping ("/updateUser/{id}")
+    public String updateUser(@ModelAttribute("iUs") User user) {
+        userService.saveUsers(user);
         return "redirect:/admin";
     }
 
@@ -57,4 +52,5 @@ public class AdminsControllers {
         userService.deleteUserById(id);
         return "redirect:/admin";
     }
+
 }

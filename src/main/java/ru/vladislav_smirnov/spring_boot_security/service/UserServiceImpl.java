@@ -39,21 +39,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
-    public User getUserById(Long id) {
-        return userRepository.getById(id);
-    }
-
-    @Override
-    @Transactional
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
+
 
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+    @Override
+    public void updateUser(Long id, User user) {
+        user.setId(id);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
+
 
     @Override
     @Transactional
